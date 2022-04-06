@@ -38,12 +38,12 @@ router.post(
     }
 
     const userJwt = jwt.sign(
-      {
-        id: existingUser.id,
-        email: existingUser.email,
-      },
-      process.env.JWT_KEY!
-    );
+		{
+			id: existingUser.id,
+			email: existingUser.email,
+		},
+		process.env.JWT_KEY!
+	);
 
     req.session = { jwt: userJwt };
 
