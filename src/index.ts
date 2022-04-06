@@ -15,7 +15,7 @@ const start = async () => {
 
 	try {
 		await mongoose.connect(
-			`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.laxgb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+			`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.laxgb.mongodb.net/news-auth?retryWrites=true&w=majority`
 		);
 
 		console.log('Connected to MongoDB');
