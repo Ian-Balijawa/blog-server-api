@@ -47,15 +47,6 @@ userSchema.pre('save', async function (done) {
 	done();
 });
 
-// userSchema.statics.genAuthenticationToken = function(attrs: UserAttrs): string {
-//   const authToken = jwt.sign({
-//     email: email,
-//     id: this.id,
-//   }, process.env.JWT_KEY!);
-
-//   return authToken;
-// };
-
 userSchema.statics.build = (attrs: UserAttrs) => {
 	return new User(attrs);
 };
