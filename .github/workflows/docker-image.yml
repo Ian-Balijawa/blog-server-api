@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ianbalijawa/news-auth-server:$(date +%s) && docker push ianbalijawa/news-auth-server
+      run: docker build . --file Dockerfile --tag ianbalijawa/news-auth-server:$(date +%s)
