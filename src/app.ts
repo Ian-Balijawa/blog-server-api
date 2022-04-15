@@ -7,6 +7,8 @@ import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 
+import { errorHander } from './middleware';
+
 // @depricated -> just use express.json() middleware
 // import {json} from "body-parser"
 
