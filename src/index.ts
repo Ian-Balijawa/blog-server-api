@@ -1,31 +1,28 @@
+import 'dotenv';
 import mongoose from 'mongoose';
 import { app } from './app';
 
-const start = async () => {
+const startUp = async () => {
 	if (!process.env.JWT_KEY) {
-		throw new Error('JWT_KEY must be defined');
+		console.error('FATAL ERROR!: JWT_KEY is not defined');
+		process.exit(1);
 	}
-
-	if (!process.env.MONGO_USERNAME) {
-		throw new Error('MONGO_USERNAME must be defined');
-	}
-	if (!process.env.MONGO_PASSWORD) {
-		throw new Error('MONGO_PASSWORD must be defined');
+	if (!process.env.MONGO_URI) {
+		console.error('FATAL ERROR!: MONGO_URI must be defined');
+		process.exit(1);
 	}
 
 	try {
-		await mongoose.connect(
-			`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.laxgb.mongodb.net/news-auth?retryWrites=true&w=majority`
-		);
-
-		console.log('Connected to MongoDB');
+		await mongoose.connect(process.env.MONGO_URI);
+		console.log(`Connected MongoDB at instance: ${process.env.MONGO_URI}`);
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
+
+	const PORT = process.env.PORT || 3000;
+	app.listen(PORT, () => {
+		console.log(`Listening on port ${PORT}`);
+	});
 };
 
-app.listen(3000, () => {
-  console.log('Listening on port 3000');
-});
-
-start();
+startUp();

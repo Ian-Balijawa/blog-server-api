@@ -33,6 +33,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.2.10",
 		"ts-node-dev": "^1.0.0-pre.44",
+		"dotenv": "^8.2.0",
 		"typescript": "^3.8.3"
 	},
 	"devDependencies": {
