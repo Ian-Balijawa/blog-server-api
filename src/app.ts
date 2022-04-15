@@ -1,16 +1,16 @@
 import express from 'express';
 import 'express-async-errors';
+import helmet from 'helmet';
 import cookieSession from 'cookie-session';
 import { NotFoundError } from './errors';
-import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/signin';
-import { signoutRouter } from './routes/signout';
-import { signupRouter } from './routes/signup';
+import {
+	currentUserRouter,
+	signinRouter,
+	signoutRouter,
+	signupRouter,
+} from './routes';
 
-import { errorHander } from './middleware';
-
-// @depricated -> just use express.json() middleware
-// import {json} from "body-parser"
+import { errorHandler } from './middlewares';
 
 const app = express();
 
@@ -22,6 +22,10 @@ app.use(
 		secure: process.env.NODE_ENV !== 'test',
 	})
 );
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(helmet.xssFilter());
+app.disable('X-Powered-By');
 
 // setup routes for the application
 app.use(currentUserRouter);

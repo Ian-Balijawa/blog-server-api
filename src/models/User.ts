@@ -11,17 +11,17 @@ declare type ReturnDocument = {
 	id?: string;
 	_id?: string;
 	password?: string;
-	_v?: string;
+	__v?: string;
 };
 
 interface UserModel extends mongoose.Model<UserDoc> {
 	build(attrs: UserAttrs): UserDoc;
-	generateAuthenticationToken(user: mongoose.Schema): string;
+	generateAuthenticationToken(user: UserDoc): string;
 }
 
 interface UserDoc extends mongoose.Document {
 	email: string;
-	passwrod: string;
+	password: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
 		toJSON: {
 			transform(doc: any, ret: ReturnDocument) {
 				ret.id = ret._id;
-				delete ret._id, delete ret.password, delete ret._v;
+				delete ret._id, delete ret.password, delete ret.__v;
 			},
 		},
 	}
@@ -60,7 +60,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 	return new User(attrs);
 };
 
-userSchema.statics.generateAuthenticationToken = (user: mongoose.Schema) => {
+userSchema.statics.generateAuthenticationToken = (user: UserDoc) => {
 	const userJwt = jwt.sign(
 		{
 			id: user.get('id'),
@@ -73,4 +73,4 @@ userSchema.statics.generateAuthenticationToken = (user: mongoose.Schema) => {
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
-export { User };
+export { User, userSchema };

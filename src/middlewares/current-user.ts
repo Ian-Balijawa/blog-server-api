@@ -31,9 +31,11 @@ export const currentUser = (
 		) as UserPayload;
 
 		req.currentUser = payload;
+		console.log(req.session?.jwt);
+		console.log(payload);
 	} catch (err) {
 		console.error(`Error verifying auth Token, ${err}`);
 	}
 
-	next();
+	return next();
 };

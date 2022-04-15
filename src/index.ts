@@ -1,14 +1,19 @@
-import 'dotenv';
+require('dotenv').config();
 import mongoose from 'mongoose';
 import { app } from './app';
 
 const startUp = async () => {
 	if (!process.env.JWT_KEY) {
-		console.error('FATAL ERROR!: JWT_KEY is not defined');
+		console.error('FATAL ERROR !: JWT_KEY is not defined');
 		process.exit(1);
 	}
 	if (!process.env.MONGO_URI) {
-		console.error('FATAL ERROR!: MONGO_URI must be defined');
+		console.error('FATAL ERROR !: MONGO_URI must be defined');
+		process.exit(1);
+	}
+
+	if (!process.env.API_VERSION) {
+		console.error('FATAL ERROR !: API_VERSION must be dedined');
 		process.exit(1);
 	}
 
