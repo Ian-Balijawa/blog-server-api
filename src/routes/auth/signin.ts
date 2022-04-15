@@ -8,10 +8,10 @@ import { PasswordManager } from '../../services';
 
 const router = express();
 
-const api = process.env.API_VERSION! || 'api';
+const version = process.env.API_VERSION!;
 
 router.post(
-	`/${api}/users/signin`,
+	`/${version}/users/signin`,
 	[
 		body('email').isEmail().withMessage('Email must be valid').trim(),
 		body('password')

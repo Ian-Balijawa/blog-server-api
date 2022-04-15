@@ -1,5 +1,9 @@
 require('dotenv').config();
 import mongoose from 'mongoose';
+import { cpus } from 'os';
+import cluster from 'cluster';
+import process from 'process';
+
 import { app } from './app';
 
 const startUp = async () => {
@@ -24,10 +28,28 @@ const startUp = async () => {
 		console.error(err);
 	}
 
-	const PORT = process.env.PORT || 3000;
-	app.listen(PORT, () => {
-		console.log(`Listening on port ${PORT}`);
-	});
+	if (cluster.isMaster) {
+		console.log(`Master cluster with pid ${process.pid} is running`);
+
+		for (let i = 0; i < cpus().length; i++) {
+			cluster.fork();
+		}
+
+		cluster.on('exit', (worker, code, signal) => {
+			console.log(`Worker with pid ${worker.process.pid} died`);
+		});
+	} else {
+		// workers can share my TCP connection.
+		// In this case, it's the HTTP server
+
+		const PORT = process.env.PORT || 3000;
+		app.listen(PORT, () => {
+			console.log(`Listening on port ${PORT}`);
+		});
+
+		console.log(`Worker ${process.pid} started`);
+	}
 };
+
 
 startUp();
