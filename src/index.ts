@@ -17,7 +17,7 @@ const startUp = async () => {
 	}
 
 	if (!process.env.API_VERSION) {
-		console.error('FATAL ERROR !: API_VERSION must be dedined');
+		console.error('FATAL ERROR !: API_VERSION must be defined');
 		process.exit(1);
 	}
 
@@ -39,8 +39,9 @@ const startUp = async () => {
 			console.log(`Worker with pid ${worker.process.pid} died`);
 		});
 	} else {
-		// workers can share my TCP connection.
+		// workers can share my TCP connection and perform IPC between themselves
 		// In this case, it's the HTTP server
+		// This helps to achieve parallelism.
 
 		const PORT = process.env.PORT || 3000;
 		app.listen(PORT, () => {

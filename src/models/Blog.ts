@@ -98,4 +98,4 @@ blogSchema.statics.build = (attrs: BlogAttrs) => {
 
 const Blog = mongoose.model<BlogDoc, BlogModel>('Blog', blogSchema);
 
-export { Blog, blogSchema };
+export { Blog };

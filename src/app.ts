@@ -8,6 +8,10 @@ import {
 	signinRouter,
 	signoutRouter,
 	signupRouter,
+	deleteBlogRouter,
+	editBlogRouter,
+	newBlogRouter,
+	showBlogRouter,
 } from './routes';
 
 import { errorHandler } from './middlewares';
@@ -27,17 +31,22 @@ app.use(helmet());
 app.use(helmet.xssFilter());
 app.disable('X-Powered-By');
 
-// setup routes for the application
+// setup auth-routes for the application
 app.use(currentUserRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 
+// setup blog-routes for the application
+app.use(deleteBlogRouter);
+app.use(editBlogRouter);
+app.use(newBlogRouter);
+app.use(showBlogRouter);
 
 app.use(errorHandler);
 
 app.all('*', async (req, res) => {
-	throw new NotFoundError();
+	throw new NotFoundError('Resource or route to resource not found');
 });
 
 export { app };
